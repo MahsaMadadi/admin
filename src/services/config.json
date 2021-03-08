@@ -1,0 +1,8 @@
+{
+    "cincitiapi": "http://api.cinciti.com/payment-router/payment-gateway/v1/payment/status",
+    "phoneStatus": "https://api.cinciti.com/payment-router/payment-gateway/v1/user/status",
+    "createPayment": "https://api.cinciti.com/payment-gateway/v1/payment/create",
+    "checkPayment": "https://api.cinciti.com/payment-gateway/v1/payment/status",
+    "test": "https://api.cinciti.com/actuator/gateway/routes",
+    "localapi": "http://localhost:4000"
+}

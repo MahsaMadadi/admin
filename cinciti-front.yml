@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: cinciti
+  name: cinciti-front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cinciti-front
+  template:
+    metadata:
+      labels:
+        app: cinciti-front
+    spec:
+      containers:
+        - name: cinciti-front
+          ports:
+            - containerPort: 80
+          image: registry.digitalocean.com/pookid/react-docker-k8s
+          livenessProbe:
+                 httpGet:
+                     path: /index.html
+                     port: 80
+                 initialDelaySeconds: 15
+                 timeoutSeconds: 2
+                 periodSeconds: 5
+                 failureThreshold: 1
+          readinessProbe:
+                 httpGet:
+                     path: /index.html
+                     port: 80
+                 initialDelaySeconds: 15
+                 periodSeconds: 5
+                 failureThreshold: 1
+      imagePullSecrets:
+        - name: pookid
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cinciti-front
+  namespace: cinciti
+  labels:
+    app: cinciti-front
+spec:
+  type: ClusterIP
+  selector:
+    app: cinciti-front
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cinciti-front
+  namespace: cinciti
+  annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  labels:
+    app: cinciti-front
+spec:
+  rules:
+    - host: "cinciti.com"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: cinciti-front
+                port:
+                  number: 80
