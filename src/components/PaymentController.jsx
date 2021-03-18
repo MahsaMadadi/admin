@@ -7,6 +7,8 @@ import DataTable from './DataTable';
 import { TextField } from '@material-ui/core';
 import { Button } from 'react-bootstrap';
 import DatePicker from './common/DatePicker';
+import Payments from './Payment/Payments';
+import PaymentsDatePicker from './common/PaymentsDatePicker';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,57 +25,60 @@ const useStyles = makeStyles((theme) => ({
 export default function PaymentController() {
   const classes = useStyles();
   const context = useContext(PaymentContext);
-  useEffect(()=>{
+  useEffect(() => {
     context.handleFindAllPayments();
-  },[])
+  }, [])
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid                     container
-                    direction="row-reverse"
-                    justify="space-around"
-                    alignItems="center" xs={12}>
-
-        <Grid item xs={12} sm={5} style={{textAlign:"center"}}>
-                    <h4 className="text-right text-success">لیست تمامی پرداخت ها</h4>
-
-                            <span className="text-muted">فیلتر بر اساس تاریخ </span>
-                            <input
-                                className="form-control mb-2"
-                                placeholder="شروع"
-                                onChange={(e) => { context.setDateFrom(e.target.value); console.log(context.getDateFrom) }}
-                            />
-                            <input
-                                className="form-control mb-2"
-                                placeholder="پایان"
-                                onChange={(e) => { context.setDateTo(e.target.value) }}
-                            />
-                            <Button className="btn-success btn-block" onClick={context.handleGetPaymentsByDate}>جستجو</Button>
-                            <hr/>
-
-                    </Grid>
-                    <Grid item xs={12} sm={5} style={{textAlign:"center"}}>
-                            <span className="text-muted">فیلتر بر اساس آیدی</span>
-                            <input
-                                className="form-control mb-2"
-                                placeholder="آیدی را وارد کنید"
-                                onChange={(e) => { context.setDateTo(e.target.value) }}
-                            />
-                            <Button className="btn-primary btn-block" onClick={context.handleGetPaymentsByDate}>جستجو</Button>
-                            <hr/>
-
-                    </Grid>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="space-around"
-                        alignItems="center"
-                        xs={12}>
-            <DataTable />
-                    </Grid>
-
-        </Grid>
+    <h4 className="text-right text-warning">لیست تمامی پرداخت ها</h4>
+      <Grid
+        container
+        direction="row"
+        justify="space-around"
+        alignItems="center"
+        item
+        xs={12}>
+        <Grid
+          container
+          direction="row"
+          justify="space-around"
+          alignItems="center"
+          item
+          xs={12} sm={6}>
+            <div className="p-2">
+            <p className="text-muted  text-right">فیلتر بر اساس وضعیت سفارش</p>
+            <input
+              className="form-control mb-2"
+              placeholder="وضعیت سفارش را وارد کنید"
+              onChange={(e) => { context.setDateTo(e.target.value) }}
+            />
+            <Button className="btn-primary btn-block" onClick={context.handleGetPaymentsByDate}>جستجو</Button>
+            </div>
+          </Grid>
+          <Grid
+          container
+          direction="row"
+          justify="space-around"
+          alignItems="center"
+          item
+          xs={12} sm={6}>
+<div>
+<PaymentsDatePicker />
+        {/* <input
+          className="form-control mb-2"
+          placeholder="شروع"
+          onChange={(e) => { context.setDateFrom(e.target.value); console.log(context.getDateFrom) }}
+        />
+        <input
+          className="form-control mb-2"
+          placeholder="پایان"
+          onChange={(e) => { context.setDateTo(e.target.value) }}
+        /> */}        
+</div>
+</Grid>
       </Grid>
+      <hr />
+          <Payments />
     </div>
   );
 }

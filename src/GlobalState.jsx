@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const GlobalState = props => {
     const [gorgi, setGorgi] = useState(true);
+    const [getMenu, setMenu] = useState(true);
     const [getPayments, setPayments] = useState([]);
     const [getPaymentsByDate, setPaymentsByDate] = useState([]);
     const [getGateways, setGateways] = useState([]);
@@ -28,19 +29,106 @@ const GlobalState = props => {
     const [getDateFrom, setDateFrom] = useState("");
     const [getDateTo, setDateTo] = useState("");
     const [getID, setID] = useState("");
+    const [getAdminUserName, setAdminUserName] = useState("");
+    const [getAdminPassword, setAdminPassword] = useState("");
+    const [getAdmin, setAdmin] = useState(false);
     const [getUrl, setUrl] = useState("");
     const [getUrlAction, setUrlAction] = useState("");
     const [getStaticAction, setStaticAction] = useState(false);
     const [getnotType, setNotType] = useState("ERROR");
     const [getNotifications, setNotifications] = useState([]);
+    const [page, setPage] = useState(1);
+    const [getEdit, setEdit] = useState(false);
+    const [getAllErrors, setAllErrors] = useState(false);
+    const [getButtonDomain, setButtonDomain] = useState(false);
+    const [getEditeDomainButton, setEditeDomainButton] = useState(false);
+    const [getEditGateway, setEditGateway] = useState([]);
+    const [getGatewayName, setGatewayName] = useState("");
+    const [getGatewayEnabled, setGatewayEnabled] = useState("");
+    const [getGatewayID, setGatewayID] = useState("");
+    const [getGatewayDeposit, setGatewayDeposit] = useState("");
+    const [getGatewayFailCounter, setGatewayFailCounter] = useState("");
+    const [getGatewayPath, setGatewayPath] = useState("");
+    const [getGatewayPin, setGatewayPin] = useState("");
+    const [getGatewayRegister, setGatewayRegister] = useState("");
+    const [getGatewayRegisterDate, setGatewayRegisterDate] = useState("");
+    const [getSupportedCards, setSupportedCards] = useState("");
+    const [getWithdraw, setWithdraw] = useState("");
+    const [getCommission, setCommission] = useState("");
 
 
+    //handle Admin Login
+    const handleLogin = ()=>{
+         if(getAdminUserName === "Gorgo" && getAdminPassword === "Esmayl12345"){
+             setAdmin(true);
+         }else{
+             alert("نام کاربری یا رمز عبور اشتباه میباشد");
+         }
+    }
+    
+    //handleGatewayEdit
+    const handleGatewayEdit = (key) => {
+        http.get(`https://api.cinciti.com/payment-gateway/v1/gateways/${key}`).then((e) => {
+            setEditGateway(e.data);
+            setGatewayID(e.data.id);
+            setGatewayName(e.data.name);
+            setGatewayDeposit(e.data.deposit);
+            setGatewayFailCounter(e.data.failCounter);
+            setGatewayPath(e.data.path);
+            setGatewayPin(e.data.pin);
+            setGatewayRegister(e.data.register);
+            setGatewayRegisterDate(e.data.registerDate);
+            setSupportedCards(e.data.supportedCards);
+            setWithdraw(e.data.withdraw);
+            setCommission(e.data.commission);
+            setGatewayEnabled(e.data.enabled);
+        })
+        console.log(key);
+        setEdit(!getEdit);
+    }
 
+    // PUT GATEWAY EDIT
+    const GatewayEdit = () => {
+        const gatewayInfo = {
+            "commission": getCommission,
+            "deposit": getGatewayDeposit,
+            "enabled": getGatewayEnabled,
+            "failCounter": getGatewayFailCounter,
+            "id": getGatewayID,
+            "name": getGatewayName,
+            "path": getGatewayPath,
+            "pin": getGatewayPin,
+            "register": getGatewayRegister,
+            "registerDate": getGatewayRegisterDate,
+            "supportedCards": getSupportedCards,
+            "withdraw": getWithdraw
+        }
+        http.put(`https://api.cinciti.com/payment-gateway/v1/gateways`, JSON.stringify(gatewayInfo)).then(() => {
+            alert("اطلاعات درگاه با موفقیت تغییر یافت");
+        })
+    }
+    
+    const handleChangePayment = (event, value) => {
+        http.get(`https://api.cinciti.com/payment-gateway/v1/payment?page=${value}`).then((e) => {
+            setPayments(e.data);
+            setPage(value);
+        })
+    }
+    const handleChangeUsers = (event, value) => {
+        http.get(`https://api.cinciti.com/payment-gateway/v1/user?page=${value}`).then((e) => {
+            setUsers(e.data);
+            setPage(value);
+        })
+    }
+    function reverseNumber(n) {
+        n = n + "";
+        return n.split("-").reverse().join("");
+    }
     //Find All Payments
     const handleFindAllPayments = () => {
-            http.get(`https://api.cinciti.com/payment-gateway/v1/payment/`).then((e) => {
-                setPayments(e.data);
-            }).catch(e=>console.log(e))
+        http.get(`https://api.cinciti.com/payment-gateway/v1/payment/`).then((e) => {
+            setPayments(e.data);
+        }).catch(e => console.log(e))
 
     }
     // Get All Payments By Date
@@ -73,8 +161,16 @@ const GlobalState = props => {
     // GET ALL URLS
     const handleGetUrls = () => {
         http.get(`https://api.cinciti.com/payment-gateway/v1/url`).then((e) => {
-            console.log(e.data);
             setUrls(e.data);
+        })
+    }
+    // GET ONLY ONE URL
+    const handleGetUrl = (domain) => {
+        http.get(`https://api.cinciti.com/payment-gateway/v1/url/${domain}`).then((e) => {
+            console.log(e.data);
+            setUrlAction(e.data.enabled);
+            setUrl(e.data.url);
+            setID(e.data.id);
         })
     }
     // POST URL
@@ -100,8 +196,9 @@ const GlobalState = props => {
         })
     }
     // DELETE URL
-    const handleDeleteUrl = () => {
-        http.delete(`https://api.cinciti.com/payment-gateway/v1/url/${getID}`).then(() => {
+    const handleDeleteUrl = (url) => {
+        const id = url.replace("https://", "");
+        http.delete(`https://api.cinciti.com/payment-gateway/v1/url/${id}`).then(() => {
             alert("لینک با موفقیت حذف گردید");
         })
     }
@@ -112,13 +209,13 @@ const GlobalState = props => {
             console.log(e.data)
         })
     }
-    const handleGetNotifications = ()=>{
+    const handleGetNotifications = () => {
         http.get(`https://api.cinciti.com/notification-service/v1/messages/${getnotType}`).then((e) => {
             setNotifications(e.data);
             console.log(e.data)
-        }) 
+        })
     }
-    
+
     const store = {
         gorgi: gorgi,
         getPayments: getPayments,
@@ -127,15 +224,59 @@ const GlobalState = props => {
         getCheckPayment: getCheckPayment,
         getStaticByDate: getStaticByDate,
         getUrls: getUrls,
-        getUsers:getUsers,
-        getDateFrom:getDateFrom,
-        getDateTo:getDateTo,
-        getID:getID,
-        getUrl:getUrl,
-        getUrlAction:getUrlAction,
-        getStaticAction:getStaticAction,
-        getnotType:getnotType,
-        getNotifications:getNotifications,
+        getUsers: getUsers,
+        getDateFrom: getDateFrom,
+        getDateTo: getDateTo,
+        getID: getID,
+        getUrl: getUrl,
+        getUrlAction: getUrlAction,
+        getStaticAction: getStaticAction,
+        getnotType: getnotType,
+        getNotifications: getNotifications,
+        page: page,
+        getEdit: getEdit,
+        getEditGateway: getEditGateway,
+        getGatewayID: getGatewayID,
+        getGatewayName: getGatewayName,
+        getGatewayDeposit: getGatewayDeposit,
+        getGatewayFailCounter: getGatewayFailCounter,
+        getGatewayPath: getGatewayPath,
+        getGatewayPin: getGatewayPin,
+        getGatewayRegister: getGatewayRegister,
+        getGatewayRegisterDate: getGatewayRegisterDate,
+        getSupportedCards: getSupportedCards,
+        getWithdraw: getWithdraw,
+        getCommission: getCommission,
+        getGatewayEnabled: getGatewayEnabled,
+        getButtonDomain: getButtonDomain,
+        getEditeDomainButton: getEditeDomainButton,
+        getMenu: getMenu,
+        getAllErrors: getAllErrors,
+        getAdminUserName:getAdminUserName,
+        getAdminPassword:getAdminPassword,
+        getAdmin:getAdmin,
+        setAdmin,
+        setAdminPassword,
+        setAdminUserName,
+        setAllErrors,
+        setMenu,
+        setEditeDomainButton,
+        setButtonDomain,
+        setGatewayEnabled,
+        setCommission,
+        setWithdraw,
+        setSupportedCards,
+        setGatewayRegisterDate,
+        setGatewayRegister,
+        setGatewayPin,
+        setGatewayPath,
+        setGatewayFailCounter,
+        setGatewayDeposit,
+        setGatewayName,
+        setGatewayID,
+        setEditGateway,
+        setEdit,
+        setPage,
         setNotifications,
         setNotType,
         setStaticAction,
@@ -161,7 +302,14 @@ const GlobalState = props => {
         handleDeleteUrl,
         handleGetStatic,
         handleGetUsers,
-        handleGetNotifications
+        handleGetNotifications,
+        reverseNumber,
+        handleChangePayment,
+        handleChangeUsers,
+        handleGatewayEdit,
+        handleGetUrl,
+        GatewayEdit,
+        handleLogin
 
     };
 

@@ -24,8 +24,7 @@ export default function DatePicker() {
           variant="inline"
           format="MM/dd/yyyy"
           margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
+          id="date-picker-dialog"
           value={selectedDate}
           onChange={handleDateChange}
           KeyboardButtonProps={{

@@ -1,24 +1,29 @@
 .App {
   text-align: center;
-  font-family: "Yekan" !important;
+  font-family: "IranSans" !important;
 }
 .root {
   background-color: #fffffff2 !important;
 }
 @font-face {
-  font-family: Yekan;
-  src: url(./fonts/Yekan.woff);
-  font-weight: bold;
-}
-@font-face {
-  font-family: SOGAND;
-  src: url(./fonts/SOGAND.woff);
-  font-weight: bold;
-}
-@font-face {
   font-family: IranSans;
   src: url(./fonts/AIranianSans.woff);
   font-weight: bold;
+}
+span {
+  font-family: IranSans,cursive !important;
+}
+.containerDate {
+  display: 'flex';
+}
+.MuiInputLabel-animated {
+  transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  font-family: 'IranSans' !important;
+}
+.textField {
+  margin-left: "theme.spacing(1)";
+  margin-right: "theme.spacing(1)";
+  width: 200;
 }
 .input-group>.custom-select:not(:first-child), .input-group>.form-control:not(:first-child) {
   border-top-right-radius: 0px !important;
@@ -43,8 +48,12 @@
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 25px !important;
+  border-radius: 0px !important;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+dl, ol, ul {
+  margin-top: 0;
+  margin-bottom: 0rem !important;
 }
 .MuiStepConnector-root {
   flex: 0 !important;
@@ -105,24 +114,85 @@
   text-decoration: none;
 }
 a {
-  color: #8500ff !important;
+  color: #FFF !important;
   text-decoration: none;
+  font-family: IranSans !important;
   background-color: transparent;
-  font-family: system-ui !important;
+}
+.MuiDrawer-paperAnchorDockedRight {
+  border-left: 1px solid rgb(0 0 0) !important;
 }
 h4{
   font-family: IranSans !important;
+}
+.makeStyles-root-15 {
+  width: 100%;
+  max-width: 360px;
+  background-color: #000 !important;
+  color: white;
+}
+.makeStyles-drawerPaper-7 {
+    color: white;
+    width: 200px;
+    background-color: #000 !important;
 }
 .MuiTab-textColorInherit {
   color: inherit;
   opacity: 0.7;
   font-family: monospace !important;
 }
+.MuiInputBase-input {
+  font: inherit;
+  color: #FFF !important;
+  width: 100%;
+  border: 0;
+  height: 1.1876em;
+  margin: 0;
+  display: block;
+  padding: 6px 0 7px;
+  min-width: 0;
+  background: none;
+  box-sizing: content-box;
+  animation-name: mui-auto-fill-cancel;
+  letter-spacing: inherit;
+  animation-duration: 10ms;
+  -webkit-tap-highlight-color: transparent;
+}
+.MuiInput-underline:before {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "\00a0";
+  position: absolute;
+  transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-bottom: 1px solid rgb(255 255 255 / 42%) !important;
+  pointer-events: none;
+}
+.MuiInput-underline:after {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  position: absolute;
+  transform: scaleX(0);
+  transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  border-bottom: 2px solid #28a745 !important;
+  pointer-events: none;
+}
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
     cursor: pointer;
+}
+.MuiFormLabel-root {
+  color: #fff !important;
+  padding: 0;
+  font-size: 1rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.00938em;
 }
 .btn-gorges {
     color: #fff !important;
@@ -138,7 +208,24 @@ h4{
 .MuiPaper-root {
   color: black !important;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: white !important;
+  background-color: rgb(0, 0, 0) !important;
+}
+.Home-icon {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font-size:  50px!important;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  flex-shrink: 0;
+  user-select: none;
+}
+.MuiIconButton-label {
+  width: 100%;
+  display: flex;
+  align-items: inherit;
+  justify-content: inherit;
+  color: white !important;
 }
 .MuiCardContent-root:last-child {
   padding-bottom: 24px;
@@ -146,22 +233,45 @@ h4{
 }
 .makeStyles-root-1 {
   width: 100%;
-  margin-top: 5%;
-  padding: 10px;
-  background: #ffffff !important;
-    -webkit-box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%), 0 3px 5px -1px rgb(0 0 0 / 20%) !important;
-    -moz-box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2) !important;
-    box-shadow: 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%), 0 3px 5px -1px rgb(0 0 0 / 20%) !important;
+  margin-top: 0% !important;
+  padding: 0px;
+  background: #FFF !important;
+}
+.makeStyles-content-9 {
+  padding: 0px !important;
+  flex-grow: 1;
+  transition: margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+  margin-right: -110px;
+}
+.PaymentSuccess {
+  background-color: #04bf24 !important;
+  color: white;
+  font-size: 18px;
+  border-radius: 15px 0px;
+  padding: 5px;
+  overflow: auto;
+}
+.bg-light {
+  background-color: #f8f9fa!important;
+  overflow: auto;
+}
+.PaymentError {
+  background-color: #bf8d0426 !important;
+  color: white;
+  font-size: 18px;
+  border-radius: 15px 0px;
+  padding: 5px;
+  overflow: auto;
 }
 .MuiStepLabel-label.MuiStepLabel-alternativeLabel {
   margin-top: 16px;
   text-align: center;
   font-size: 16px;
-  font-family: 'Yekan' !important;
+  font-family: 'IranSans' !important;
 }
 .MuiTypography-body2 {
   font-size: 0.8rem;
-  font-family: 'Yekan' !important;
+  font-family: 'IranSans' !important;
   font-weight: 800;
   line-height: 1.43;
   letter-spacing: 0.01071em;
@@ -180,20 +290,33 @@ c{
   direction: rtl;
 }
 Button {
-  font-family: Yekan !important;
+  font-family: IranSans !important;
+}
+.cursive{
+  font-family:cursive !important;
 }
 .MuiStepIcon-root.MuiStepIcon-active {
   color: #22a912 !important;
 }
+.MuiInputBase-input {
+  font: inherit;
+  color: currentColor;
+  width: 90% !important;
+  border: 0;
+  height: 1.1876em;
+  margin: 0;
+  display: block;
+  padding: 6px 0 7px;
+  min-width: 0;
+  background: none;
+  box-sizing: content-box;
+  animation-name: mui-auto-fill-cancel;
+  letter-spacing: inherit;
+  animation-duration: 10ms;
+  -webkit-tap-highlight-color: transparent;
+}
 .MuiPaper-outlined {
   border: 0px solid rgba(0, 0, 0, 0.12) !important;
-}
-.makeStyles-root-1 {
-  width: 100%;
-  margin-top: 5%;
-  padding: 10px;
-  background-color: white;
-  box-shadow: 1px 1px 12px 5px #888888;
 }
 .App-logo {
   height: 40vmin;

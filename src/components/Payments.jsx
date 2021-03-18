@@ -14,8 +14,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PersonIcon from '@material-ui/icons/Person';
 import Fehrest from './Fehrest';
-import Gateways from "./Gateways";
+import Gateways from "./Gateway/Gateways";
 import PaymentController from './PaymentController';
+import Domains from './Domain/Domains';
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,7 +26,7 @@ import {
   useParams
 } from "react-router-dom";
 
-const drawerWidth = 110;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     fontFamily: "monospace",
-    color:"black",
+    color:"white",
     fontSize:"22px"
   },
   hide: {
@@ -109,6 +110,8 @@ export default function Payments() {
     <div className={classes.root} style={{fontFamily:"Yekan !important"}}>
       <CssBaseline />
 
+
+
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -137,9 +140,9 @@ export default function Payments() {
       >
 
         <div className={classes.drawerHeader}/>
-          <PaymentController />
+          <Domains />
       </main>
-      <Drawer style={{textAlign:"right",fontFamily:"Yekan"}}
+      <Drawer
         className={classes.drawer}
         variant="persistent"
         anchor="right"
@@ -148,8 +151,8 @@ export default function Payments() {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader} style={{backgroundColor:"#FFF"}}> 
-          <IconButton onClick={handleDrawerClose} style={{color:"black"}}>
+        <div className={classes.drawerHeader} style={{backgroundColor:"#000"}}> 
+          <IconButton onClick={handleDrawerClose} style={{color:"white"}}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
