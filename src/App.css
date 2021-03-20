@@ -256,8 +256,16 @@ h4{
   overflow: auto;
 }
 .PaymentError {
-  background-color: #bf8d0426 !important;
+  background-color: #ff1313 !important;
   color: white;
+  font-size: 18px;
+  border-radius: 15px 0px;
+  padding: 5px;
+  overflow: auto;
+}
+.SYSTEMError {
+  background-color: #ffffff !important;
+  color: rgb(0, 0, 0);
   font-size: 18px;
   border-radius: 15px 0px;
   padding: 5px;

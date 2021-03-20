@@ -55,6 +55,7 @@ const GlobalState = props => {
     const [getSupportedCards, setSupportedCards] = useState("");
     const [getWithdraw, setWithdraw] = useState("");
     const [getCommission, setCommission] = useState("");
+    const [getPaymentMessage, setPaymentMessage] = useState("");
 
 
     //handle Admin Login
@@ -255,6 +256,8 @@ const GlobalState = props => {
         getAdminUserName:getAdminUserName,
         getAdminPassword:getAdminPassword,
         getAdmin:getAdmin,
+        getPaymentMessage:getPaymentMessage,
+        setPaymentMessage,
         setAdmin,
         setAdminPassword,
         setAdminUserName,

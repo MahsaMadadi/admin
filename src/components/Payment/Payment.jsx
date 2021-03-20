@@ -1,26 +1,23 @@
 import React from "react";
 import Grid from '@material-ui/core/Grid';
 
-const Payment = ({ paymentStatus, userPhoneNumber, amount, addedDate }) => {
+const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDate, transferMessage }) => {
     let PaymentColor = "PaymentError";
     if (paymentStatus === "SUCCESS") {
         PaymentColor = "PaymentSuccess";
+    }else if(paymentStatus === "SYSTEM_ERROR"){
+        PaymentColor = "SYSTEMError";
     }
     return (
-        <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-            item
-            xs={12}>
-            <div className={`d-flex cursive flex-fill justify-content-between ${PaymentColor} m-2`}>
-                <span style={{width:'40%'}}>{amount}</span>
-                <span style={{width:'40%'}} className="text-left">{userPhoneNumber}</span>
+            <div className={`d-flex text-center cursive ${PaymentColor} m-2`}>
+                <div className="col-md-2"><p className="text-bold">{amount}</p></div>
+                <div className="col-md-2"><p>{paymentStatus}</p></div>
+                <div className="col-md-2"><p>{gatewayName}</p></div>
+                <div className="col-md-2"><p>{userPhoneNumber}</p></div>
+                <div className="col-md-2"><p>{addedDate}</p></div>
+                <div className="col-md-2"><p>{transferMessage}</p></div>
                 {/* <span>{addedDate}</span> */}
-                <span style={{width:'20%'}} className="text-right">_{paymentStatus}_</span>
             </div>
-        </Grid>
     );
 };
 
