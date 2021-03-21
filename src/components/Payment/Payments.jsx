@@ -49,11 +49,12 @@ const Payments = () => {
                 {/* <span>{addedDate}</span> */}
             </div>
             {context.getPayments.map(payment => {
-                if(payment.transferMessage === null)
-                {
-                    context.setPaymentMessage("NULL");
-                }else {
-                    context.setPaymentMessage(payment.transferMessage.message);
+                switch (payment.transferMessage) {
+                    case null:
+                        context.setPaymentMessage("NULL");
+                        break;
+                    default:
+                        context.setPaymentMessage(payment.transferMessage.message);
                 }
                 return (<Payment
                     key={payment.id}
