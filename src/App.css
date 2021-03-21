@@ -255,6 +255,9 @@ h4{
   background-color: #f8f9fa!important;
   overflow: auto;
 }
+.bg-dark {
+  overflow: auto;
+}
 .PaymentError {
   background-color: #ff1313 !important;
   color: white;
