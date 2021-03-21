@@ -7,6 +7,8 @@ const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDa
         PaymentColor = "PaymentSuccess";
     }else if(paymentStatus === "SYSTEM_ERROR"){
         PaymentColor = "SYSTEMError";
+    }else if(paymentStatus === "PENDING"){
+        PaymentColor = "PENDING";
     }
     return (
             <div className={`d-flex text-center cursive ${PaymentColor} m-2`}>
@@ -15,7 +17,7 @@ const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDa
                 <div className="col-md-2"><p>{gatewayName}</p></div>
                 <div className="col-md-2"><p>{userPhoneNumber}</p></div>
                 <div className="col-md-2"><p>{addedDate}</p></div>
-                <div className="col-md-2"><p>{transferMessage}</p></div>
+                {/* <div className="col-md-2"><p>{transferMessage}</p></div> */}
                 {/* <span>{addedDate}</span> */}
             </div>
     );

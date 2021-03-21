@@ -45,7 +45,7 @@ const Payments = () => {
                 <div className="col-md-2 text-bold text-success"><p>GatewayName</p></div>
                 <div className="col-md-2 text-bold text-success"><p>Phone</p></div>
                 <div className="col-md-2 text-bold text-success"><p>Date</p></div>
-                <div className="col-md-2 text-bold text-success"><p>Message</p></div>
+                {/* <div className="col-md-2 text-bold text-success"><p>Message</p></div> */}
                 {/* <span>{addedDate}</span> */}
             </div>
             {context.getPayments.map(payment => {
@@ -56,7 +56,7 @@ const Payments = () => {
                     amount={payment.amount}
                     gatewayName={payment.gatewayName}
                     addedDate={payment.addedDate}
-                    transferMessage = {payment.transferMessage.message}
+                    // transferMessage = {payment.transferMessage.message}
                 />)
             })}
         </div>

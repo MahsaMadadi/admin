@@ -271,6 +271,17 @@ h4{
   padding: 5px;
   overflow: auto;
 }
+p{
+  font-family: IranSans,cursive !important;
+}
+.PENDING {
+  background-color: #ddeb24 !important;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  border-radius: 15px 0px;
+  padding: 5px;
+  overflow: auto;
+}
 .MuiStepLabel-label.MuiStepLabel-alternativeLabel {
   margin-top: 16px;
   text-align: center;

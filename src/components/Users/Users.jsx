@@ -14,7 +14,14 @@ const Users = () => {
 <Pagination count={10} page={context.page} color="primary" onChange={context.handleChangeUsers} />
 
 </div>
-            <div className="d-flex bg-dark text-light p-2 m-2 justify-content-between"><span className="w-10">عملیات</span><span className="w-10">وضعیت کاربر</span><span className="w-50">درگاه های ثبت شده</span><span className="w-20 pr-1">شماره موبایل کاربر</span></div>
+<div className={`d-flex text-center cursive text-light bg-dark m-2 p-2`}>
+            <div className="col-md-3"><p>عملیات</p></div>
+            <div className="col-md-3"><p>وضعیت کاربر</p></div>
+            <div className="col-md-3"><p>درگاه های ثبت شده</p></div>
+            <div className="col-md-3"><p>شماره موبایل</p></div>
+            {/* <div className="col-md-2"><p>{transferMessage}</p></div> */}
+            {/* <span>{addedDate}</span> */}
+        </div>
             {context.getUsers.map(users => (
                 <User
                     key={users.id}

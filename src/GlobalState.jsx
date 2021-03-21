@@ -31,7 +31,7 @@ const GlobalState = props => {
     const [getID, setID] = useState("");
     const [getAdminUserName, setAdminUserName] = useState("");
     const [getAdminPassword, setAdminPassword] = useState("");
-    const [getAdmin, setAdmin] = useState(false);
+    const [getAdmin, setAdmin] = useState(getCookie("isAdmin"));
     const [getUrl, setUrl] = useState("");
     const [getUrlAction, setUrlAction] = useState("");
     const [getStaticAction, setStaticAction] = useState(false);
@@ -59,14 +59,41 @@ const GlobalState = props => {
 
 
     //handle Admin Login
-    const handleLogin = ()=>{
-         if(getAdminUserName === "Gorgo" && getAdminPassword === "Esmayl12345"){
-             setAdmin(true);
-         }else{
-             alert("نام کاربری یا رمز عبور اشتباه میباشد");
-         }
+    //handle Admin Login
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
-    
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    const handleLogin = () => {
+        setCookie("username", getAdminUserName, 1);
+        setCookie("password", getAdminPassword, 1);
+        if (getCookie("username") === "Gorgo" && getCookie("password") === "Esmayl12345") {
+            setCookie("isAdmin", true, 365);
+            setAdmin(getCookie("isAdmin"));
+            console.log(getCookie("isAdmin"))
+        } else {
+            alert("نام کاربری یا رمز عبور اشتباه میباشد");
+        }
+    }
+
     //handleGatewayEdit
     const handleGatewayEdit = (key) => {
         http.get(`https://api.cinciti.com/payment-gateway/v1/gateways/${key}`).then((e) => {
@@ -87,7 +114,7 @@ const GlobalState = props => {
         console.log(key);
         setEdit(!getEdit);
     }
-
+    // SET
     // PUT GATEWAY EDIT
     const GatewayEdit = () => {
         const gatewayInfo = {
@@ -108,7 +135,7 @@ const GlobalState = props => {
             alert("اطلاعات درگاه با موفقیت تغییر یافت");
         })
     }
-    
+
     const handleChangePayment = (event, value) => {
         http.get(`https://api.cinciti.com/payment-gateway/v1/payment?page=${value}`).then((e) => {
             setPayments(e.data);
@@ -253,10 +280,10 @@ const GlobalState = props => {
         getEditeDomainButton: getEditeDomainButton,
         getMenu: getMenu,
         getAllErrors: getAllErrors,
-        getAdminUserName:getAdminUserName,
-        getAdminPassword:getAdminPassword,
-        getAdmin:getAdmin,
-        getPaymentMessage:getPaymentMessage,
+        getAdminUserName: getAdminUserName,
+        getAdminPassword: getAdminPassword,
+        getAdmin: getAdmin,
+        getPaymentMessage: getPaymentMessage,
         setPaymentMessage,
         setAdmin,
         setAdminPassword,
@@ -312,7 +339,8 @@ const GlobalState = props => {
         handleGatewayEdit,
         handleGetUrl,
         GatewayEdit,
-        handleLogin
+        handleLogin,getCookie
+        ,setCookie
 
     };
 
