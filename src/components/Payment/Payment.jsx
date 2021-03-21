@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from '@material-ui/core/Grid';
 
-const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDate, transferMessage }) => {
+const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDate, message }) => {
     let PaymentColor = "PaymentError";
     if (paymentStatus === "SUCCESS") {
         PaymentColor = "PaymentSuccess";
@@ -17,7 +17,7 @@ const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDa
                 <div className="col-md-2"><p>{gatewayName}</p></div>
                 <div className="col-md-2"><p>{userPhoneNumber}</p></div>
                 <div className="col-md-2"><p>{addedDate}</p></div>
-                {/* <div className="col-md-2"><p>{transferMessage}</p></div> */}
+                <div className="col-md-2"><p>{message}</p></div>
                 {/* <span>{addedDate}</span> */}
             </div>
     );

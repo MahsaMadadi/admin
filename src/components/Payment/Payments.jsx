@@ -40,15 +40,26 @@ const Payments = () => {
                 <Pagination count={10} page={context.page} color="primary" onChange={context.handleChangePayment} />
             </div>
             <div className={`d-flex text-center cursive bg-light m-2 p-2`}>
-                <div className="col-md-2 text-bold text-success"><p>Price</p></div>
-                <div className="col-md-2 text-bold text-success"><p>Status</p></div>
-                <div className="col-md-2 text-bold text-success"><p>GatewayName</p></div>
-                <div className="col-md-2 text-bold text-success"><p>Phone</p></div>
-                <div className="col-md-2 text-bold text-success"><p>Date</p></div>
+                <div className="col-md-2 text-bold text-success"><p className="h5">Price</p></div>
+                <div className="col-md-2 text-bold text-success"><p className="h5">Status</p></div>
+                <div className="col-md-2 text-bold text-success"><p className="h5">GatewayName</p></div>
+                <div className="col-md-2 text-bold text-success"><p className="h5">Phone</p></div>
+                <div className="col-md-2 text-bold text-success"><p className="h6">Date</p></div>
                 {/* <div className="col-md-2 text-bold text-success"><p>Message</p></div> */}
                 {/* <span>{addedDate}</span> */}
             </div>
             {context.getPayments.map(payment => {
+                        context.setPaymentMessage(payment.transferMessage.message);
+
+                // if(message === null){
+                //     context.setPaymentMessage(null);
+                //     console.log(context.getPaymentMessage)
+
+                // }else{
+                //     context.setPaymentMessage(message);
+                //     console.log(context.getPaymentMessage)
+
+                // }
                 return (<Payment
                     key={payment.id}
                     paymentStatus={payment.paymentStatus}
@@ -56,8 +67,8 @@ const Payments = () => {
                     amount={payment.amount}
                     gatewayName={payment.gatewayName}
                     addedDate={payment.addedDate}
-                    // transferMessage = {payment.transferMessage.message}
-                />)
+                    message={context.getPaymentMessage}
+                />);
             })}
         </div>
     );
