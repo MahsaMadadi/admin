@@ -49,7 +49,7 @@ const Payments = () => {
                 {/* <span>{addedDate}</span> */}
             </div>
             {context.getPayments.map(payment => {
-                        context.setPaymentMessage(payment.transferMessage.message);
+                        // context.setPaymentMessage(payment.transferMessage.message);
 
                 // if(message === null){
                 //     context.setPaymentMessage(null);
@@ -67,7 +67,7 @@ const Payments = () => {
                     amount={payment.amount}
                     gatewayName={payment.gatewayName}
                     addedDate={payment.addedDate}
-                    message={context.getPaymentMessage}
+                    // message={context.getPaymentMessage}
                 />);
             })}
         </div>

@@ -17,7 +17,7 @@ const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDa
                 <div className="col-md-2"><p>{gatewayName}</p></div>
                 <div className="col-md-2"><p>{userPhoneNumber}</p></div>
                 <div className="col-md-2"><p>{addedDate}</p></div>
-                <div className="col-md-2"><p>{message}</p></div>
+            {/* <div className="col-md-2"><p>{message}</p></div> */}
                 {/* <span>{addedDate}</span> */}
             </div>
     );
