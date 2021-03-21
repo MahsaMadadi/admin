@@ -173,7 +173,7 @@ const GlobalState = props => {
     }
     //Get All Gateways
     const handleGetGateways = () => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/gateways`).then((e) => {
+        http.get(`https://api.cinciti.com/payment-method-service/v1/gateways`).then((e) => {
             setGateways(e.data);
             console.log(e.data)
         })
@@ -188,13 +188,13 @@ const GlobalState = props => {
     }
     // GET ALL URLS
     const handleGetUrls = () => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/url`).then((e) => {
+        http.get(`https://api.cinciti.com/url-service/v1/url`).then((e) => {
             setUrls(e.data);
         })
     }
     // GET ONLY ONE URL
     const handleGetUrl = (domain) => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/url/${domain}`).then((e) => {
+        http.get(`https://api.cinciti.com/url-service/v1/url/${domain}`).then((e) => {
             console.log(e.data);
             setUrlAction(e.data.enabled);
             setUrl(e.data.url);
@@ -208,7 +208,7 @@ const GlobalState = props => {
             "id": `${getID}`,
             "url": `${getUrl}`
         }
-        http.post(`https://api.cinciti.com/payment-gateway/v1/url`, JSON.stringify(url)).then(() => {
+        http.post(`https://api.cinciti.com/url-service/v1/url`, JSON.stringify(url)).then(() => {
             alert("لینک با موفقیت افزوده شد.");
         })
     }
@@ -219,14 +219,14 @@ const GlobalState = props => {
             "id": `${getID}`,
             "url": `${getUrl}`
         }
-        http.put(`https://api.cinciti.com/payment-gateway/v1/url`, JSON.stringify(url)).then(() => {
+        http.put(`https://api.cinciti.com/url-service/v1/url`, JSON.stringify(url)).then(() => {
             alert("لینک با موفقیت تغییر داده شد.");
         })
     }
     // DELETE URL
     const handleDeleteUrl = (url) => {
         const id = url.replace("https://", "");
-        http.delete(`https://api.cinciti.com/payment-gateway/v1/url/${id}`).then(() => {
+        http.delete(`https://api.cinciti.com/url-service/v1/url/${id}`).then(() => {
             alert("لینک با موفقیت حذف گردید");
         })
     }

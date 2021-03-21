@@ -12,7 +12,7 @@ const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDa
     }
     return (
             <div className={`d-flex text-center cursive ${PaymentColor} m-2`}>
-                <div className="col-md-1"><p className="text-bold">{amount}</p></div>
+                <div className="col-md-1"><p className="text-bold">{amount / 10000},000</p></div>
                 <div className="col-md-1"><p>{paymentStatus}</p></div>
                 <div className="col-md-2"><p>{gatewayName}</p></div>
                 <div className="col-md-2"><p>{userPhoneNumber}</p></div>
