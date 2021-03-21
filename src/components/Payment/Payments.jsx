@@ -40,26 +40,21 @@ const Payments = () => {
                 <Pagination count={10} page={context.page} color="primary" onChange={context.handleChangePayment} />
             </div>
             <div className={`d-flex text-center cursive bg-light m-2 p-2`}>
-                <div className="col-md-2 text-bold text-success"><p className="h5">Price</p></div>
-                <div className="col-md-2 text-bold text-success"><p className="h5">Status</p></div>
-                <div className="col-md-2 text-bold text-success"><p className="h5">GatewayName</p></div>
-                <div className="col-md-2 text-bold text-success"><p className="h5">Phone</p></div>
-                <div className="col-md-2 text-bold text-success"><p className="h6">Date</p></div>
-                {/* <div className="col-md-2 text-bold text-success"><p>Message</p></div> */}
+                <div className="col-md-1 text-success"><p>Price</p></div>
+                <div className="col-md-1 text-success"><p>Status</p></div>
+                <div className="col-md-2 text-success"><p>GatewayName</p></div>
+                <div className="col-md-2 text-success"><p>Phone</p></div>
+                <div className="col-md-3 text-success"><p>Date</p></div>
+                <div className="col-md-3 text-success"><p>Message</p></div>
                 {/* <span>{addedDate}</span> */}
             </div>
             {context.getPayments.map(payment => {
-                        // context.setPaymentMessage(payment.transferMessage.message);
-
-                // if(message === null){
-                //     context.setPaymentMessage(null);
-                //     console.log(context.getPaymentMessage)
-
-                // }else{
-                //     context.setPaymentMessage(message);
-                //     console.log(context.getPaymentMessage)
-
-                // }
+                if(payment.transferMessage === null)
+                {
+                    context.setPaymentMessage("NULL");
+                }else {
+                    context.setPaymentMessage(payment.transferMessage.message);
+                }
                 return (<Payment
                     key={payment.id}
                     paymentStatus={payment.paymentStatus}
@@ -67,7 +62,7 @@ const Payments = () => {
                     amount={payment.amount}
                     gatewayName={payment.gatewayName}
                     addedDate={payment.addedDate}
-                    // message={context.getPaymentMessage}
+                    message={context.getPaymentMessage}
                 />);
             })}
         </div>

@@ -246,7 +246,7 @@ h4{
 .PaymentSuccess {
   background-color: #04bf24 !important;
   color: white;
-  font-size: 18px;
+  font-size: 14px;
   border-radius: 15px 0px;
   padding: 5px;
   overflow: auto;
@@ -261,7 +261,7 @@ h4{
 .PaymentError {
   background-color: #ff1313 !important;
   color: white;
-  font-size: 18px;
+  font-size: 14px;
   border-radius: 15px 0px;
   padding: 5px;
   overflow: auto;
@@ -269,7 +269,7 @@ h4{
 .SYSTEMError {
   background-color: #ffffff !important;
   color: rgb(0, 0, 0);
-  font-size: 18px;
+  font-size: 14px;
   border-radius: 15px 0px;
   padding: 5px;
   overflow: auto;
@@ -280,7 +280,7 @@ p{
 .PENDING {
   background-color: #ddeb24 !important;
   color: rgb(0, 0, 0);
-  font-size: 18px;
+  font-size: 14px;
   border-radius: 15px 0px;
   padding: 5px;
   overflow: auto;
