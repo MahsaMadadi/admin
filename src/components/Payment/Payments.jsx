@@ -13,14 +13,10 @@ const Payments = () => {
     }, [])
     return (
         <div className="w-90">
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                item xs={12} sm={12}
-            >
-                <Grid container item xs={10} sm={4}>
+            <Grid>
+                {/* <Grid   direction="row"
+  justify="flex-start"
+  alignItems="center" item xs={12} sm={12}>
                     <div>
                         <p className="text-warning text-center">فیلتر بر اساس وضعیت</p>
                         <input
@@ -31,8 +27,8 @@ const Payments = () => {
                         <Button className="btn-primary btn-block" onClick={context.handleGetPaymentsByDate}>جستجو</Button>
 
                     </div>
-                </Grid>
-                <Grid item xs={10} sm={2}>
+                </Grid> */}
+                <Grid item xs={12} sm={12}>
                     <PaymentsDatePicker />
                 </Grid>
             </Grid>
@@ -49,12 +45,13 @@ const Payments = () => {
                 {/* <span>{addedDate}</span> */}
             </div>
             {context.getPayments.map(payment => {
+                let message = payment.transferMessage;
                 switch (payment.transferMessage) {
                     case null:
-                        context.setPaymentMessage("NULL");
+                        message = null;
                         break;
                     default:
-                        context.setPaymentMessage(payment.transferMessage.message);
+                        message = payment.transferMessage.message;
                 }
                 return (<Payment
                     key={payment.id}
@@ -63,7 +60,7 @@ const Payments = () => {
                     amount={payment.amount}
                     gatewayName={payment.gatewayName}
                     addedDate={payment.addedDate}
-                    message={context.getPaymentMessage}
+                    message={message}
                 />);
             })}
         </div>

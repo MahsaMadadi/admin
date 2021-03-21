@@ -50,6 +50,7 @@ export default function PaymentsDatePicker() {
                         type="date"
                         className={classes.textField}
                         defaultValue={selectedDate}
+                        format="yyyy-MM-dd"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -63,6 +64,7 @@ export default function PaymentsDatePicker() {
                         type="date"
                         defaultValue={selectedDate}
                         className={classes.textField}
+                        format="yyyy-MM-dd"
                         InputLabelProps={{
                             shrink: true,
                         }}
