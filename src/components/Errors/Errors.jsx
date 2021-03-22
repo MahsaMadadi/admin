@@ -28,6 +28,7 @@ const Errors = () => {
                     withdraw={gateway.withdraw}
                 />
             ))}
+            
             {context.getAllErrors ? (<AllErrors />) : null}
         </div>
     );

@@ -6,8 +6,10 @@ import Grid from '@material-ui/core/Grid';
 import { Button } from 'react-bootstrap';
 import PaymentsDatePicker from './../common/PaymentsDatePicker';
 
+
 const Payments = () => {
     const context = useContext(PaymentContext);
+
     useEffect(() => {
         context.handleFindAllPayments();
     }, [])

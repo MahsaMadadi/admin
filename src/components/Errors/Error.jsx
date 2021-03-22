@@ -20,12 +20,10 @@ const Error = ({ key,name, enabled, commission, withdraw }) => {
             xs={12}>
             <div className={`d-flex flex-fill text-center justify-content-between bg-light p-2 m-2`}>
                 <ButtonGroup className="w-50" color="primary">
+                    {/* <Button variant="outlined" color="secondary"><DeleteForeverIcon /></Button>
                     <Button variant="outlined" color="secondary"><DeleteForeverIcon /></Button>
-                    <Button variant="outlined" color="secondary"><DeleteForeverIcon /></Button>
-                    <Button variant="outlined" color="secondary"><DeleteForeverIcon /></Button>
-                    <Button onClick={()=>{
-                        context.setAllErrors(!context.getAllErrors);
-                    }}>GetAll</Button>
+                    <Button variant="outlined" color="secondary"><DeleteForeverIcon /></Button> */}
+                    <Button onClick={()=>{context.handlegetAllMessages()}}>GetAll</Button>
                 </ButtonGroup>
                 <span className="w-50">{name}</span>
             </div>

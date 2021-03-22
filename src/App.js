@@ -32,7 +32,7 @@ const App = () => {
   const context = useContext(PaymentContext);
   return (
     <Fragment>
- {context.getAdmin ? (<div>
+ {context.getCookie("isAdmin") ? (<div>
   <Router>
 
 <div>
@@ -84,8 +84,7 @@ const App = () => {
       <Link className="text-light text-right mb-1 cursive" to="/Domain"><DnsIcon className="Home-icon" />Domains</Link>
       <Link className="text-light text-right mb-1 cursive" to="/Statics"><MonetizationOnIcon className="Home-icon" />Statics</Link>
       <Link className="text-light text-right mb-1 cursive" to="/Errors"><ErrorIcon className="Home-icon" />Errors</Link>
-      <Link className="text-danger text-right mb-1 cursive" onClick={()=>{context.setCookie("isAdmin" , false , 365)
-    console.log(context.setAdmin(context.setCookie("isAdmin" , false ,365)))}}><ExitToAppIcon className="Home-icon" />Log Out</Link>
+      <Link className="text-danger text-right mb-1 cursive" onClick={context.handeLogOut}><ExitToAppIcon className="Home-icon" />Log Out</Link>
     
 </Grid>): null}
 

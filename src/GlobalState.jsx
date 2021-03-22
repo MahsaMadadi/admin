@@ -1,21 +1,11 @@
 import React, { useState } from "react";
-import { makeStyles } from '@material-ui/core/styles';
 import PaymentContext from './context/Context';
-import http from "./services/httpService";
+import axios from "axios";
+import ReactSession from 'react-client-session';
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-    },
-    backButton: {
-        marginRight: theme.spacing(1),
-    },
-    instructions: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
-}));
+
+
 const GlobalState = props => {
     const [gorgi, setGorgi] = useState(true);
     const [getMenu, setMenu] = useState(true);
@@ -56,8 +46,21 @@ const GlobalState = props => {
     const [getWithdraw, setWithdraw] = useState("");
     const [getCommission, setCommission] = useState("");
     const [getPaymentMessage, setPaymentMessage] = useState("");
+    const [getAllMessages, setAllMessages] = useState([]);
+    const [getAdminToken, setAdminToken] = useState("");
 
-
+    axios.defaults.headers.get["Content-Type"] = "application/json";
+    axios.defaults.headers.get["Authorization"] = getCookie("adminToken") ? (`Basic ${getCookie("adminToken")}`) : ("Fuck");
+    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "http://localhost:3000";
+    axios.defaults.headers.post["Content-Type"] = "application/json";
+    axios.defaults.headers.post["Authorization"] = getCookie("adminToken") ? (`Basic ${getCookie("adminToken")}`) : ("Fuck");
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "http://localhost:3000";
+    axios.defaults.headers.delete["Content-Type"] = "application/json";
+    axios.defaults.headers.delete["Authorization"] = getCookie("adminToken") ? (`Basic ${getCookie("adminToken")}`) : ("Fuck");
+    axios.defaults.headers.delete["Access-Control-Allow-Origin"] = "http://localhost:3000";
+    axios.defaults.headers.put["Content-Type"] = "application/json";
+    axios.defaults.headers.put["Authorization"] = getCookie("adminToken") ? (`Basic ${getCookie("adminToken")}`) : ("Fuck");
+    axios.defaults.headers.put["Access-Control-Allow-Origin"] = "http://localhost:3000";
     //handle Admin Login
     //handle Admin Login
     function setCookie(cname, cvalue, exdays) {
@@ -82,21 +85,46 @@ const GlobalState = props => {
         }
         return "";
     }
-    const handleLogin = () => {
-        setCookie("username", getAdminUserName, 1);
-        setCookie("password", getAdminPassword, 1);
-        if (getCookie("username") === "Gorgo" && getCookie("password") === "Esmayl12345") {
-            setCookie("isAdmin", true, 365);
-            setAdmin(getCookie("isAdmin"));
-            console.log(getCookie("isAdmin"))
-        } else {
-            alert("نام کاربری یا رمز عبور اشتباه میباشد");
+    const handeLogOut = () => {
+        document.cookie = "isAdmin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.reload();
+    }
+    const handleLoginTest = () => {
+        axios.get(`https://api.cinciti.com/payment-gateway/v1/payment/`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Basic ${btoa(`${getAdminUserName}:${getAdminPassword}`)}`,
+                "Access-Control-Allow-Origin": "http://localhost:3000",
+            }
+        })
+            .then(() => {
+                setAdmin(setCookie("isAdmin", true, 365));
+            })
+            .catch(() => {
+                alert("نام کاربری یا کلمه ی عبور اشتباه میباشد");
+                document.cookie = "isAdmin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            });
+    }
+    const handleLogin = async () => {
+        try {
+            setCookie("username", getAdminUserName, 1);
+            setCookie("password", getAdminPassword, 1);
+            setCookie("adminToken", btoa(`${getAdminUserName}:${getAdminPassword}`), 30);
+            await handleLoginTest();
+        } catch (ex) {
+            console.log(ex)
         }
     }
 
     //handleGatewayEdit
     const handleGatewayEdit = (key) => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/gateways/${key}`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-method-service/v1/gateways/${key}`).then((e) => {
             setEditGateway(e.data);
             setGatewayID(e.data.id);
             setGatewayName(e.data.name);
@@ -131,19 +159,19 @@ const GlobalState = props => {
             "supportedCards": getSupportedCards,
             "withdraw": getWithdraw
         }
-        http.put(`https://api.cinciti.com/payment-gateway/v1/gateways`, JSON.stringify(gatewayInfo)).then(() => {
+        axios.put(`https://api.cinciti.com/payment-method-service/v1/gateways`, JSON.stringify(gatewayInfo)).then(() => {
             alert("اطلاعات درگاه با موفقیت تغییر یافت");
         })
     }
 
     const handleChangePayment = (event, value) => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/payment?page=${value}`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-gateway/v1/payment?page=${value}`).then((e) => {
             setPayments(e.data);
             setPage(value);
         })
     }
     const handleChangeUsers = (event, value) => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/user?page=${value}`).then((e) => {
+        axios.get(`https://api.cinciti.com/user-service/v1/user?page=${value}`).then((e) => {
             setUsers(e.data);
             setPage(value);
         })
@@ -154,48 +182,45 @@ const GlobalState = props => {
     }
     //Find All Payments
     const handleFindAllPayments = () => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/payment/`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-gateway/v1/payment/`).then((e) => {
             setPayments(e.data);
         }).catch(e => console.log(e))
 
     }
     // Get All Payments By Date
     const handleGetPaymentsByDate = () => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/payment/from/${getDateFrom}/to/${getDateTo}`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-gateway/v1/payment/from/${getDateFrom}/to/${getDateTo}`).then((e) => {
             setPayments(e.data);
         })
     }
     // Check Payment By ID
     const handleCheckPayment = (id) => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/payment/status/${id}`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-gateway/v1/payment/status/${id}`).then((e) => {
             setCheckPayment(e);
         })
     }
     //Get All Gateways
     const handleGetGateways = () => {
-        http.get(`https://api.cinciti.com/payment-method-service/v1/gateways`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-method-service/v1/gateways`).then((e) => {
             setGateways(e.data);
-            console.log(e.data)
         })
     }
     // Get Static By Date
     const handleGetStatic = () => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/statics/from/${getDateFrom}/to/${getDateTo}`).then((e) => {
+        axios.get(`https://api.cinciti.com/payment-gateway/v1/statics/from/${getDateFrom}/to/${getDateTo}`).then((e) => {
             setStaticByDate(e.data);
             setStaticAction(true);
-            console.log(e.data);
         })
     }
     // GET ALL URLS
     const handleGetUrls = () => {
-        http.get(`https://api.cinciti.com/url-service/v1/url`).then((e) => {
+        axios.get(`https://api.cinciti.com/url-service/v1/url`).then((e) => {
             setUrls(e.data);
         })
     }
     // GET ONLY ONE URL
     const handleGetUrl = (domain) => {
-        http.get(`https://api.cinciti.com/url-service/v1/url/${domain}`).then((e) => {
-            console.log(e.data);
+        axios.get(`https://api.cinciti.com/url-service/v1/url/${domain}`).then((e) => {
             setUrlAction(e.data.enabled);
             setUrl(e.data.url);
             setID(e.data.id);
@@ -208,7 +233,7 @@ const GlobalState = props => {
             "id": `${getID}`,
             "url": `${getUrl}`
         }
-        http.post(`https://api.cinciti.com/url-service/v1/url`, JSON.stringify(url)).then(() => {
+        axios.post(`https://api.cinciti.com/url-service/v1/url`, JSON.stringify(url)).then(() => {
             alert("لینک با موفقیت افزوده شد.");
         })
     }
@@ -219,31 +244,35 @@ const GlobalState = props => {
             "id": `${getID}`,
             "url": `${getUrl}`
         }
-        http.put(`https://api.cinciti.com/url-service/v1/url`, JSON.stringify(url)).then(() => {
+        axios.put(`https://api.cinciti.com/url-service/v1/url`, JSON.stringify(url)).then(() => {
             alert("لینک با موفقیت تغییر داده شد.");
         })
     }
     // DELETE URL
     const handleDeleteUrl = (url) => {
         const id = url.replace("https://", "");
-        http.delete(`https://api.cinciti.com/url-service/v1/url/${id}`).then(() => {
+        axios.delete(`https://api.cinciti.com/url-service/v1/url/${id}`).then(() => {
             alert("لینک با موفقیت حذف گردید");
         })
     }
     // GET ALL USERS
     const handleGetUsers = () => {
-        http.get(`https://api.cinciti.com/payment-gateway/v1/user`).then((e) => {
+        axios.get(`https://api.cinciti.com/user-service/v1/user`).then((e) => {
             setUsers(e.data);
-            console.log(e.data)
         })
     }
     const handleGetNotifications = () => {
-        http.get(`https://api.cinciti.com/notification-service/v1/messages/${getnotType}`).then((e) => {
+        axios.get(`https://api.cinciti.com/notification-service/v1/messages/${getnotType}`).then((e) => {
             setNotifications(e.data);
-            console.log(e.data)
         })
     }
-
+    //GET ALL MESSAGES
+    const handlegetAllMessages = () => {
+        axios.get(`https://api.cinciti.com/notification-service/v1/messages`).then((e) => {
+            setAllMessages(e.data);
+            setAllErrors(true);
+        })
+    }
     const store = {
         gorgi: gorgi,
         getPayments: getPayments,
@@ -284,6 +313,8 @@ const GlobalState = props => {
         getAdminPassword: getAdminPassword,
         getAdmin: getAdmin,
         getPaymentMessage: getPaymentMessage,
+        getAllMessages: getAllMessages,
+        setAllMessages,
         setPaymentMessage,
         setAdmin,
         setAdminPassword,
@@ -339,8 +370,11 @@ const GlobalState = props => {
         handleGatewayEdit,
         handleGetUrl,
         GatewayEdit,
-        handleLogin,getCookie
-        ,setCookie
+        handleLogin, getCookie
+        , setCookie,
+        handleLoginTest,
+        handeLogOut,
+        handlegetAllMessages 
 
     };
 
