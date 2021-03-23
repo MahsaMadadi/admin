@@ -5,10 +5,12 @@ const Payment = ({ paymentStatus, userPhoneNumber, amount, gatewayName , addedDa
     let PaymentColor = "PaymentError";
     if (paymentStatus === "SUCCESS") {
         PaymentColor = "PaymentSuccess";
-    }else if(paymentStatus === "SYSTEM_ERROR"){
-        PaymentColor = "SYSTEMError";
     }else if(paymentStatus === "PENDING"){
         PaymentColor = "PENDING";
+    }else if(paymentStatus === "CANCELLED"){
+        PaymentColor = "PaymentError";
+    }else {
+        PaymentColor = "SYSTEMError";
     }
     return (
             <div className={`d-flex text-center cursive ${PaymentColor} m-2`}>
